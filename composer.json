@@ -1,0 +1,70 @@
+{
+    "name": "jeromegamez/valinor-troubleshooting",
+    "description": "A project to showcase issues I'm having",
+    "license": [
+        "BSD-3-Clause"
+    ],
+    "type": "project",
+    "authors": [
+        {
+            "name": "Jérôme Gamez",
+            "email": "jerome@gamez.name"
+        }
+    ],
+    "require": {
+        "php": "~8.3.0 || ~8.4.0"
+    },
+    "require-dev": {
+        "shipmonk/dead-code-detector": "^0.12.4",
+        "friendsofphp/php-cs-fixer": "^3.82.1",
+        "phpstan/extension-installer": "^1.4.3",
+        "phpstan/phpstan": "^2.1.17",
+        "phpstan/phpstan-deprecation-rules": "^2.0.3",
+        "phpstan/phpstan-phpunit": "^2.0.6",
+        "phpstan/phpstan-strict-rules": "^2.0.4",
+        "phpunit/phpunit": "^12.2.6",
+        "shipmonk/composer-dependency-analyser": "^1.8.3",
+        "symfony/var-dumper": "^7.3.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Tests\\": "tests"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "phpstan/extension-installer": true
+        },
+        "sort-packages": true
+    },
+    "scripts": {
+        "project:analyze": "vendor/bin/phpstan analyse",
+        "project:lint": [
+            "vendor/bin/php-cs-fixer check --diff --verbose"
+        ],
+        "project:lint:fix": [
+            "vendor/bin/php-cs-fixer fix --diff --verbose"
+        ],
+        "project:test:all": [
+            "@project:analyze",
+            "@project:lint",
+            "@project:test:unit",
+            "@project:test:dependencies"
+        ],
+        "project:test:unit": [
+            "vendor/bin/phpunit --testdox"
+        ],
+        "project:test:coverage": [
+            "Composer\\Config::disableProcessTimeout",
+            "XDEBUG_MODE=coverage vendor/bin/phpunit --testdox --coverage-text --coverage-html=.build/coverage"
+        ],
+        "project:test:dependencies": [
+            "vendor/bin/composer-dependency-analyser"
+        ]
+    }
+}
