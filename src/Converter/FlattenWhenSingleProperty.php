@@ -7,8 +7,10 @@ namespace App\Converter;
 final class FlattenWhenSingleProperty
 {
     /**
+     * @pure
+     *
      * @param iterable<mixed> $source
-     * @param callable(iterable<mixed>): iterable<mixed> $next
+     * @param pure-callable(iterable<mixed>): iterable<mixed> $next
      *
      * @return iterable<mixed>
      */

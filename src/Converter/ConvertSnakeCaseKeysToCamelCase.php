@@ -7,10 +7,12 @@ namespace App\Converter;
 final class ConvertSnakeCaseKeysToCamelCase
 {
     /**
-     * @param iterable<array-key, mixed> $source
-     * @param callable(iterable<array-key, mixed>): iterable<array-key, mixed> $next
+     * @pure
      *
-     * @return iterable<array-key, mixed>
+     * @param iterable<mixed> $source
+     * @param pure-callable(iterable<mixed>): iterable<mixed> $next
+     *
+     * @return iterable<mixed>
      */
     public function __invoke(iterable $source, callable $next): iterable
     {
@@ -18,6 +20,8 @@ final class ConvertSnakeCaseKeysToCamelCase
     }
 
     /**
+     * @pure
+     *
      * @param iterable<mixed> $source
      *
      * @return array<array-key, mixed>
@@ -42,10 +46,12 @@ final class ConvertSnakeCaseKeysToCamelCase
     }
 
     /**
+     * @pure
+     *
      * @param non-empty-string $key
      */
     private static function convert(string $key): string
     {
-        return lcfirst(str_replace('_', '', ucwords($key, '_')));
+        return lcfirst(str_replace('_', '', ucwords($key, '_'))); // @phpstan-ignore possiblyImpure.functionCall
     }
 }
