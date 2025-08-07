@@ -18,6 +18,10 @@ final class FlattenWhenSingleProperty
             ++$keys;
             $result = $value;
 
+            if (!is_iterable($result)) {
+                return $next($source);
+            }
+
             if ($keys > 1) {
                 return $next($source);
             }

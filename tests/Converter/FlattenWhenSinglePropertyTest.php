@@ -25,6 +25,7 @@ class FlattenWhenSinglePropertyTest extends TestCase
     public function it_works_by_providing_a_class_string(iterable $expected, string $signature, iterable $input): void
     {
         $mapper = (new MapperBuilder())
+            ->allowPermissiveTypes()
             ->registerConverter(FlattenWhenSingleProperty::class)
             ->mapper()
         ;
@@ -44,6 +45,7 @@ class FlattenWhenSinglePropertyTest extends TestCase
     public function it_works_by_providing_a_class_instance(iterable $expected, string $signature, iterable $input): void
     {
         $mapper = (new MapperBuilder())
+            ->allowPermissiveTypes()
             ->registerConverter(new FlattenWhenSingleProperty())
             ->mapper()
         ;
@@ -58,7 +60,7 @@ class FlattenWhenSinglePropertyTest extends TestCase
      */
     public static function dataProvider(): iterable
     {
-        yield 'flattened' => [
+        yield 'happy path' => [
             'signature' => 'array<string, string>',
             'input' => [
                 'first_key' => [
@@ -72,7 +74,7 @@ class FlattenWhenSinglePropertyTest extends TestCase
             ],
         ];
 
-        yield 'unchanged' => [
+        yield 'source without a single property' => [
             'signature' => 'array<string, string>',
             'input' => [
                 'first_key' => 'first_value',
@@ -81,6 +83,16 @@ class FlattenWhenSinglePropertyTest extends TestCase
             'expected' => [
                 'first_key' => 'first_value',
                 'second_key' => 'second_value',
+            ],
+        ];
+
+        yield 'property not containing an iterable' => [
+            'signature' => 'array<string, mixed>',
+            'input' => [
+                'property' => 'value',
+            ],
+            'expected' => [
+                'property' => 'value',
             ],
         ];
     }
