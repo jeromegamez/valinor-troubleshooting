@@ -7,16 +7,20 @@ namespace App\Converter;
 final class ConvertSnakeCaseKeysToCamelCase
 {
     /**
-     * @param iterable<mixed> $source
+     * @param iterable<array-key, mixed> $source
+     * @param callable(iterable<array-key, mixed>): iterable<array-key, mixed> $next
+     *
+     * @return iterable<array-key, mixed>
      */
-    public function __invoke(iterable $source, callable $next): mixed
+    public function __invoke(iterable $source, callable $next): iterable
     {
         return $next(self::camelCase($source));
     }
 
     /**
      * @param iterable<mixed> $source
-     * @return array<mixed>
+     *
+     * @return array<array-key, mixed>
      */
     private static function camelCase(iterable $source): array
     {
