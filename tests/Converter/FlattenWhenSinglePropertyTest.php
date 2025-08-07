@@ -22,27 +22,7 @@ class FlattenWhenSinglePropertyTest extends TestCase
      */
     #[DataProvider('dataProvider')]
     #[Test]
-    public function it_works_by_providing_a_class_string(iterable $expected, string $signature, iterable $input): void
-    {
-        $mapper = (new MapperBuilder())
-            ->allowPermissiveTypes()
-            ->registerConverter(FlattenWhenSingleProperty::class)
-            ->mapper()
-        ;
-
-        $result = $mapper->map($signature, $input);
-
-        self::assertSame($expected, $result);
-    }
-
-    /**
-     * @param iterable<mixed> $expected
-     * @param non-empty-string $signature
-     * @param iterable<mixed> $input
-     */
-    #[DataProvider('dataProvider')]
-    #[Test]
-    public function it_works_by_providing_a_class_instance(iterable $expected, string $signature, iterable $input): void
+    public function it_works(iterable $expected, string $signature, iterable $input): void
     {
         $mapper = (new MapperBuilder())
             ->allowPermissiveTypes()
